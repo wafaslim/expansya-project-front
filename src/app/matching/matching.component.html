@@ -1,0 +1,28 @@
+<form [formGroup]="validation" (ngSubmit)="onSubmit()">
+    <div formArrayName="matchedHeader">
+        <div *ngFor="let matched of matchedHeader.controls; let i=index">
+            <div [formGroupName]="i">
+              Header :
+              <input type="text" formControlName="key">
+              Detected matched :
+              <input type="text" formControlName="value">
+       
+              <!-- <button (click)="removeSkill(i)">Remove</button> -->
+            </div>
+          </div>      
+    </div>
+    <div formArrayName="notmatchedHeader">
+        <div *ngFor="let notMatched of notmatchedHeader.controls; let i=index">
+            <div [formGroupName]="i">
+              Header :
+              <input type="text" formControlName="key">
+              Matched with:
+              <input type="text" formControlName="value">
+       
+              <!-- <button (click)="removeSkill(i)">Remove</button> -->
+            </div>
+          </div>      
+    </div>
+      <button type="submit">Submit</button>
+  </form>
+  
