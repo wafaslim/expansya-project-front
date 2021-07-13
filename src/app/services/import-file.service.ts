@@ -10,11 +10,16 @@ import { environment } from '../../environments/environment'
 export class ImportFileService {
   url = environment.baseURL;
   response: any;
+  message: any;
 
   constructor(private http: HttpClient) { }
 
   ImportFiles(formdata): Observable<any> {
     return this.http.post<any>(this.url + "/upload/uploadfichier", formdata)
+    
+  }
+  saveData(filename: any , data: any):Observable<any>{
+    return this.http.put<any>(this.url+"/upload/saveData/"+ filename,data)
   }
 
   saveresponse(res: any): void {

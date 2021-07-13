@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ImportFileService } from '../services/import-file.service';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-matching',
   templateUrl: './matching.component.html',
@@ -11,7 +11,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 export class MatchingComponent implements OnInit {
   response: any;
   validation: FormGroup;
-  constructor(private uploadService: ImportFileService) { }
+  filename: any;
+  constructor(private snackBar: MatSnackBar, private uploadService: ImportFileService) { }
   ngOnInit(): void {
     this.response = this.uploadService.getresponse();
     this.validation = new FormGroup({
@@ -31,21 +32,33 @@ export class MatchingComponent implements OnInit {
   }
 
   remplirFormArray(){
+    this.filename = this.response.fichierUp._id;
     for (let i = 0; i < this.response?.matching.length; i++) {
       this.matchedHeader.push(new FormGroup({
-        key: new FormControl({value: this.response?.matching[i], disabled: true}),
-        value:new FormControl({value:this.response?.matching[i],disabled:true})
+        key: new FormControl(this.response?.matching[i]),
+        value:new FormControl(this.response?.matching[i])
       }))
     }
     for (let j = 0; j < this.response?.similarkeys.length; j++) {
       this.notmatchedHeader.push(new FormGroup({
-        key: new FormControl({value:this.response?.similarkeys[j].key,disabled:true}),
+        key: new FormControl(this.response?.similarkeys[j].key),
         value: new FormControl('', Validators.required)
       }))
     }
+    console.log(this.validation.value);
   }
 
   onSubmit() {
-    console.log(this.validation.value);
+    if(this.validation.invalid)
+    {
+      return;
+    }else{
+      this.uploadService.saveData(this.filename, this.validation.value).subscribe(res=>{ 
+          this.snackBar.open('fichier ajouté avec succes','×',{panelClass: 'success', verticalPosition: 'top', duration: 3000});
+        },
+        err=>{ 
+          console.log(err);
+        });
+    }
   }
 }

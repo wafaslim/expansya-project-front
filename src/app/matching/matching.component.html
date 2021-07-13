@@ -1,28 +1,35 @@
-<form [formGroup]="validation" (ngSubmit)="onSubmit()">
-    <div formArrayName="matchedHeader">
+<form [formGroup]="validation" (ngSubmit)="onSubmit()" class="container "> 
+  <div formArrayName="matchedHeader" class="row text-align-center ">
+      <div class="col-md-6 ">
+        <h1>Matched Keys</h1>
         <div *ngFor="let matched of matchedHeader.controls; let i=index">
             <div [formGroupName]="i">
               Header :
-              <input type="text" formControlName="key">
+              <input type="text" formControlName="key" readonly class='width="300" height="200"' style="background-color: rgb(174, 196, 236)">  
               Detected matched :
-              <input type="text" formControlName="value">
-       
-              <!-- <button (click)="removeSkill(i)">Remove</button> -->
+              <input type="text" formControlName="value" readonly>
             </div>
-          </div>      
+          </div> 
+        </div>     
     </div>
-    <div formArrayName="notmatchedHeader">
+   
+    <div formArrayName="notmatchedHeader" class="row text-align-center ">
+      <div class="col-md-6 mx-auto">
+        <h1>Not Matched Keys</h1>
         <div *ngFor="let notMatched of notmatchedHeader.controls; let i=index">
             <div [formGroupName]="i">
               Header :
-              <input type="text" formControlName="key">
+              <input type="text" formControlName="key" readonly>
               Matched with:
-              <input type="text" formControlName="value">
-       
-              <!-- <button (click)="removeSkill(i)">Remove</button> -->
+              <select formControlName="value">
+                <option *ngFor="let value of response?.similarkeys[i].similarkey" [value]="value.choice">{{value.choice}} {{value.score}} {{value.key}}</option>
+              </select>
             </div>
-          </div>      
+          </div> 
+        </div>     
     </div>
-      <button type="submit">Submit</button>
-  </form>
+  <div class="row text-align-center ">
+      <button class="col-md-6 mx-auto" type="submit" class="btn btn-primary"[disabled]="validation.invalid">Submit</button>
+    </div>  
+    </form>
   

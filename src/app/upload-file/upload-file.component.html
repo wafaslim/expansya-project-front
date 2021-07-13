@@ -33,11 +33,27 @@
       </form>
     </div>
   </nav>
-<form>
+<!-- <form>
     <div class="form-group">
       <label for="exampleFormControlFile1">Example file input</label>
       <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="changeListener($event.target.files)" >
     </div>
   </form>
   <button type="button" class="btn btn-primary">Télécharger le fichier modèle </button>
-  <button type="button" class="btn btn-primary" (click)="uploadFile()">Import </button>
+  <button type="button" class="btn btn-primary" (click)="uploadFile()">Import </button> -->
+  <div class="container mt-5">
+  <div class="col-sm-6 mr-auto ml-auto border p-4">
+    <form method="post" enctype="multipart/form-data" action="upload.php">
+      <div class="form-group">
+        <label><strong>Upload Files</strong></label>
+        <div class="custom-file">
+          <input type="file" name="files[]" multiple class="custom-file-input form-control" id="customFile" (change)="changeListener($event.target.files)" >
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" name="upload" value="upload" id="upload" class="btn btn-block btn-primary" (click)=uploadFile()><i class="fa fa-fw fa-upload"></i> Upload</button>
+      </div>
+    </form>
+  </div>
+</div>
